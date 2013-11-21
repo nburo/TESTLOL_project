@@ -34,3 +34,5 @@ jeu
 -points de stats à travers les skills (lvl up = choisir skills, skills = action + stats)
 
 -types d'Attaques = juste des skills (pas vrmt d'atk de base)
+
+-choix du sexe
