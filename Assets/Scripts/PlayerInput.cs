@@ -14,20 +14,26 @@ public class PlayerInput : MonoBehaviour {
 
 	void Update () {
 
+		bool moveLeftKey = Input.GetKey(KeyCode.LeftArrow);
+		bool moveRightKey = Input.GetKey(KeyCode.RightArrow);
+		bool moveUpKey = Input.GetKey(KeyCode.UpArrow);
+		bool moveDownKey = Input.GetKey(KeyCode.DownArrow);
+		bool jumpKey = Input.GetKey(KeyCode.Space);
+
 		Motor = this.transform.GetComponent<MovementMotor>();
 
 		//Movement control for 8 directions
 		//When two opposite keys are pressed at the same time, the player stops
 		//its movement in this axis
-		if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+		if (moveLeftKey && !moveRightKey) {
 
-			if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow)){         // Down-Left
+			if (moveDownKey && !moveUpKey){         // Down-Left
 
 				Motor.X_MaxSpeed = -PlayerSpeed;
 				Motor.Y_MaxSpeed = -PlayerSpeed;
 
 			}
-			else if (Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow)){     // Up-Left
+			else if (moveUpKey && !moveDownKey){     // Up-Left
 
 				Motor.X_MaxSpeed = -PlayerSpeed;
 				Motor.Y_MaxSpeed =  PlayerSpeed;
@@ -41,15 +47,15 @@ public class PlayerInput : MonoBehaviour {
 			}
 
 		}
-		else if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)){        
+		else if (moveRightKey && !moveLeftKey){        
 
-			if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow)){         // Down-Right
+			if (moveDownKey && !moveUpKey){         // Down-Right
 
 				Motor.X_MaxSpeed =  PlayerSpeed;
 				Motor.Y_MaxSpeed = -PlayerSpeed;
 
 			}
-			else if (Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow)){     // Down-Right
+			else if (moveUpKey && !moveDownKey){     // Down-Right
 
 				Motor.X_MaxSpeed =  PlayerSpeed;
 				Motor.Y_MaxSpeed =  PlayerSpeed;
@@ -64,13 +70,13 @@ public class PlayerInput : MonoBehaviour {
 		}
 		else{
 
-			if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow)){         // Down
+			if (moveDownKey && !moveUpKey){         // Down
 				
 				Motor.X_MaxSpeed =  0;
 				Motor.Y_MaxSpeed = -PlayerSpeed * 1.41421356f;
 				
 			}
-			else if (Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow)){     // Up
+			else if (moveUpKey && !moveDownKey){     // Up
 				
 				Motor.X_MaxSpeed =  0;
 				Motor.Y_MaxSpeed =  PlayerSpeed * 1.41421356f;
@@ -86,7 +92,7 @@ public class PlayerInput : MonoBehaviour {
 		}
 
 		//Jump
-		if (Input.GetKey(KeyCode.Space)){
+		if (jumpKey){
 			
 			Motor.Jump = true;
 			Motor.Z_MaxSpeed = -JumpSpeed;
