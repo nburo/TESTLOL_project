@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof(MovementMotor))]
@@ -10,38 +10,51 @@ public class PlayerInput : MonoBehaviour {
 
 	MovementMotor Motor;
 
-
+	private bool moveLeftKey;
+	private bool moveRightKey;
+	private bool moveUpKey;
+	private bool moveDownKey;
+	private bool jumpKey;
+	private float PlayerSpeed_Diagonal;
 
 	void Update () {
 
-		bool moveLeftKey = Input.GetKey(KeyCode.LeftArrow);
-		bool moveRightKey = Input.GetKey(KeyCode.RightArrow);
-		bool moveUpKey = Input.GetKey(KeyCode.UpArrow);
-		bool moveDownKey = Input.GetKey(KeyCode.DownArrow);
-		bool jumpKey = Input.GetKey(KeyCode.Space);
+		//Read player inputs
+		/*****************************************
+		 *****************************************/
+		moveLeftKey = Input.GetKey(KeyCode.LeftArrow);
+		moveRightKey = Input.GetKey(KeyCode.RightArrow);
+		moveUpKey = Input.GetKey(KeyCode.UpArrow);
+		moveDownKey = Input.GetKey(KeyCode.DownArrow);
+		jumpKey = Input.GetKey(KeyCode.Space);
+		/*****************************************
+		 *****************************************/
 
 		Motor = this.transform.GetComponent<MovementMotor>();
+		PlayerSpeed_Diagonal = PlayerSpeed / 1.41421356f;
 
 		//Movement control for 8 directions
 		//When two opposite keys are pressed at the same time, the player stops
 		//its movement in this axis
+		/*****************************************
+		 *****************************************/
 		if (moveLeftKey && !moveRightKey) {
 
 			if (moveDownKey && !moveUpKey){         // Down-Left
 
-				Motor.X_MaxSpeed = -PlayerSpeed;
-				Motor.Y_MaxSpeed = -PlayerSpeed;
+				Motor.X_MaxSpeed = -PlayerSpeed_Diagonal;
+				Motor.Y_MaxSpeed = -PlayerSpeed_Diagonal;
 
 			}
 			else if (moveUpKey && !moveDownKey){     // Up-Left
 
-				Motor.X_MaxSpeed = -PlayerSpeed;
-				Motor.Y_MaxSpeed =  PlayerSpeed;
+				Motor.X_MaxSpeed = -PlayerSpeed_Diagonal;
+				Motor.Y_MaxSpeed =  PlayerSpeed_Diagonal;
 
 			}
 			else {                                         // Left
 
-				Motor.X_MaxSpeed = -PlayerSpeed * 1.41421356f;
+				Motor.X_MaxSpeed = -PlayerSpeed;
 				Motor.Y_MaxSpeed =  0;
 
 			}
@@ -51,19 +64,19 @@ public class PlayerInput : MonoBehaviour {
 
 			if (moveDownKey && !moveUpKey){         // Down-Right
 
-				Motor.X_MaxSpeed =  PlayerSpeed;
-				Motor.Y_MaxSpeed = -PlayerSpeed;
+				Motor.X_MaxSpeed =  PlayerSpeed_Diagonal;
+				Motor.Y_MaxSpeed = -PlayerSpeed_Diagonal;
 
 			}
 			else if (moveUpKey && !moveDownKey){     // Down-Right
 
-				Motor.X_MaxSpeed =  PlayerSpeed;
-				Motor.Y_MaxSpeed =  PlayerSpeed;
+				Motor.X_MaxSpeed =  PlayerSpeed_Diagonal;
+				Motor.Y_MaxSpeed =  PlayerSpeed_Diagonal;
 
 			}
 			else{                                          // Rigth
 
-				Motor.X_MaxSpeed =  PlayerSpeed * 1.41421356f;
+				Motor.X_MaxSpeed =  PlayerSpeed;
 				Motor.Y_MaxSpeed =  0;
 
 			}
@@ -73,13 +86,13 @@ public class PlayerInput : MonoBehaviour {
 			if (moveDownKey && !moveUpKey){         // Down
 				
 				Motor.X_MaxSpeed =  0;
-				Motor.Y_MaxSpeed = -PlayerSpeed * 1.41421356f;
+				Motor.Y_MaxSpeed = -PlayerSpeed;
 				
 			}
 			else if (moveUpKey && !moveDownKey){     // Up
 				
 				Motor.X_MaxSpeed =  0;
-				Motor.Y_MaxSpeed =  PlayerSpeed * 1.41421356f;
+				Motor.Y_MaxSpeed =  PlayerSpeed;
 				
 			}
 			else{                                          // Middle
@@ -90,13 +103,20 @@ public class PlayerInput : MonoBehaviour {
 			}
 
 		}
+		/*****************************************
+		 *****************************************/
 
-		//Jump
+
+		//Jump Handling
+		/*****************************************
+		 *****************************************/
 		if (jumpKey){
 			
 			Motor.Jump = true;
 			Motor.Z_MaxSpeed = -JumpSpeed;
 			
 		}
+		/*****************************************
+		 *****************************************/
 	}
 }

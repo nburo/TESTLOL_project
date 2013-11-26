@@ -9,7 +9,6 @@ using System.Collections;
 
 public class MovementMotor : MonoBehaviour {
 
-	// Default acceleration close to instantaneous
 	public float X_Accel    = 1000000;
 	public float Y_Accel    = 1000000;
 	public float Z_Accel    = -30; //(Gravity)
@@ -21,6 +20,7 @@ public class MovementMotor : MonoBehaviour {
 	public bool Jump;
 	public float YZ_Factor;
 
+
 	private float X_Speed = 0;
 	private float Y_Speed = 0;
 	private float Z_Speed = 0;
@@ -31,14 +31,22 @@ public class MovementMotor : MonoBehaviour {
 
 	void Update () {
 
+		// Jump Handling
+		/*****************************************
+		 *****************************************/
 		if (Jump && grounded) {
-			if(grounded) {Z_Speed = Z_MaxSpeed;}
+			Z_Speed = Z_MaxSpeed;
 			grounded = false;
 		}
 		Jump = false;
 		YZ_Last_Displacement = YZ_New_Displacement;
+		/*****************************************
+		 *****************************************/
 
-		// Compute X-Axis Movement
+
+		// X-Axis Movement
+		/*****************************************
+		 *****************************************/
 		if (X_MaxSpeed < 0) {
 
 			if ((X_Speed - X_Accel * Time.deltaTime) <= X_MaxSpeed) {
@@ -56,8 +64,12 @@ public class MovementMotor : MonoBehaviour {
 		} else { // Decelerate
 			X_Speed = 0;
 		}
+		/*****************************************
+		 *****************************************/
 
-		// Compute Y-Axis Movement
+		// Y-Axis Movement
+		/*****************************************
+		 *****************************************/
 		if (Y_MaxSpeed < 0) {
 
 			if ((Y_Speed - Y_Accel * Time.deltaTime) <= Y_MaxSpeed) {
@@ -77,8 +89,12 @@ public class MovementMotor : MonoBehaviour {
 		}
 
 		YZ_New_Displacement = -transform.position.z * YZ_Factor;
+		/*****************************************
+		 *****************************************/
 
-		// Compute Z-Axis Movement
+		// Z-Axis Movement
+		/*****************************************
+		 *****************************************/
 		if (Z_MaxSpeed < 0) {
 
 			if ((Z_Speed - Z_Accel * Time.deltaTime) <= Z_MaxSpeed) {
@@ -96,9 +112,13 @@ public class MovementMotor : MonoBehaviour {
 		} else { // Decelerate
 			Z_Speed = 0;
 		}
+		/*****************************************
+		 *****************************************/
 
 
 		// Write the result
+		/*****************************************
+		 *****************************************/
 		Vector3 CurrentPosition = transform.position;
 		CurrentPosition.x += X_Speed * Time.deltaTime;
 		CurrentPosition.y += Y_Speed * Time.deltaTime - YZ_Last_Displacement + YZ_New_Displacement;
@@ -111,19 +131,13 @@ public class MovementMotor : MonoBehaviour {
 			CurrentPosition.z = 0;
 			grounded=true;
 		}
-
-
+		
 		transform.position = CurrentPosition;
-		//Y position will acuumulate an error as-is because when jumping we SET 
-		//the position to a value if it exceeds the maximum
-	}
 
-	void OnCollisionEnter(Collision collision) {
-		foreach (ContactPoint contact in collision.contacts) {
-			print(contact.thisCollider.name + " hit " + contact.otherCollider.name);
-			Debug.DrawRay(contact.point, contact.normal, Color.white);
-		}
 	}
+		/*****************************************
+		 *****************************************/
+
 
 
 }
