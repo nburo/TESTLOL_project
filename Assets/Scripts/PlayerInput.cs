@@ -6,7 +6,7 @@ using System.Collections;
 public class PlayerInput : MonoBehaviour {
 
 	public float PlayerSpeed = 10.0f;
-	public float JumpSpeed = 10;
+	public float JumpSpeed = 10.0f;
 
 	MovementMotor Motor;
 
@@ -16,6 +16,8 @@ public class PlayerInput : MonoBehaviour {
 	private bool moveDownKey;
 	private bool jumpKey;
 	private float PlayerSpeed_Diagonal;
+
+
 
 	void Update () {
 
