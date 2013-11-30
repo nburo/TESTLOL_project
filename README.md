@@ -36,3 +36,5 @@ jeu
 -types d'Attaques = juste des skills (pas vrmt d'atk de base)
 
 -choix du sexe
+
+-testlinux
