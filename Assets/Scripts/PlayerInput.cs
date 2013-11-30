@@ -8,7 +8,7 @@ public class PlayerInput : MonoBehaviour {
 	public float PlayerSpeed = 10.0f;
 	public float JumpSpeed = 10.0f;
 
-	MovementMotor Motor;
+	private MovementMotor Motor;
 
 	private bool moveLeftKey;
 	private bool moveRightKey;
@@ -32,7 +32,7 @@ public class PlayerInput : MonoBehaviour {
 		/*****************************************
 		 *****************************************/
 
-		Motor = this.transform.GetComponent<MovementMotor>();
+		Motor = transform.GetComponent<MovementMotor>();
 		PlayerSpeed_Diagonal = PlayerSpeed / 1.41421356f;
 
 		//Movement control for 8 directions
@@ -42,19 +42,19 @@ public class PlayerInput : MonoBehaviour {
 		 *****************************************/
 		if (moveLeftKey && !moveRightKey) {
 
-			if (moveDownKey && !moveUpKey){         // Down-Left
+			if (moveDownKey && !moveUpKey){              // Down-Left
 
 				Motor.X_MaxSpeed = -PlayerSpeed_Diagonal;
 				Motor.Y_MaxSpeed = -PlayerSpeed_Diagonal;
 
 			}
-			else if (moveUpKey && !moveDownKey){     // Up-Left
+			else if (moveUpKey && !moveDownKey){         // Up-Left
 
 				Motor.X_MaxSpeed = -PlayerSpeed_Diagonal;
 				Motor.Y_MaxSpeed =  PlayerSpeed_Diagonal;
 
 			}
-			else {                                         // Left
+			else {                                       // Left
 
 				Motor.X_MaxSpeed = -PlayerSpeed;
 				Motor.Y_MaxSpeed =  0;
@@ -64,19 +64,19 @@ public class PlayerInput : MonoBehaviour {
 		}
 		else if (moveRightKey && !moveLeftKey){        
 
-			if (moveDownKey && !moveUpKey){         // Down-Right
-
+			if (moveDownKey && !moveUpKey){              // Down-Right
+				   
 				Motor.X_MaxSpeed =  PlayerSpeed_Diagonal;
 				Motor.Y_MaxSpeed = -PlayerSpeed_Diagonal;
 
 			}
-			else if (moveUpKey && !moveDownKey){     // Down-Right
+			else if (moveUpKey && !moveDownKey){         // Down-Right
 
 				Motor.X_MaxSpeed =  PlayerSpeed_Diagonal;
 				Motor.Y_MaxSpeed =  PlayerSpeed_Diagonal;
 
 			}
-			else{                                          // Rigth
+			else{                                        // Rigth
 
 				Motor.X_MaxSpeed =  PlayerSpeed;
 				Motor.Y_MaxSpeed =  0;
@@ -85,19 +85,19 @@ public class PlayerInput : MonoBehaviour {
 		}
 		else{
 
-			if (moveDownKey && !moveUpKey){         // Down
+			if (moveDownKey && !moveUpKey){              // Down
 				
 				Motor.X_MaxSpeed =  0;
 				Motor.Y_MaxSpeed = -PlayerSpeed;
 				
 			}
-			else if (moveUpKey && !moveDownKey){     // Up
+			else if (moveUpKey && !moveDownKey){         // Up
 				
 				Motor.X_MaxSpeed =  0;
 				Motor.Y_MaxSpeed =  PlayerSpeed;
 				
 			}
-			else{                                          // Middle
+			else{                                        // Middle
 				
 				Motor.X_MaxSpeed =  0;
 				Motor.Y_MaxSpeed =  0;
