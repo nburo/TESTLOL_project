@@ -92,7 +92,6 @@ public class MovementMotor : MonoBehaviour {
 		}
 		if(X_Speed < 0 && Collision.Collision_Left){// Prevent Left movement
 			X_Speed = 0;
-			grounded = true;
 		}
 
 		/*****************************************
