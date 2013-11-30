@@ -1,13 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ShadowScale.cs">
-    <Files>
-      <File FileName="Assets\Scripts\ShadowScale.cs" Line="64" Column="1" />
-      <File FileName="Assets\Scripts\ShadowScale.cs" Line="53" Column="5" />
-      <File FileName="Assets\Scripts\PlayerInput.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MovementMotor.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
