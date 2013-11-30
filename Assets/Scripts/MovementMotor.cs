@@ -7,6 +7,8 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(CollisionTrigger))]
+
 public class MovementMotor : MonoBehaviour {
 
 	public float X_Accel    = 1000000;
@@ -29,7 +31,24 @@ public class MovementMotor : MonoBehaviour {
 	private float YZ_Last_Displacement = 0;
 	private float YZ_New_Displacement = 0;
 
+	private CollisionTrigger Collision;
+
 	void Update () {
+
+		// Check if there are new collisions every frame the GameObject moves
+		/*****************************************
+		 *****************************************/
+		if (transform.hasChanged) {
+			Collision = this.transform.GetComponent<CollisionTrigger>();
+		}
+
+		// Set HasChanged to false for functions that will not 
+		// execute when the object does not move
+		/*****************************************
+		 *****************************************/
+		transform.hasChanged = false;
+		/*****************************************
+		 *****************************************/
 
 		// Jump Handling
 		/*****************************************
@@ -49,21 +68,33 @@ public class MovementMotor : MonoBehaviour {
 		 *****************************************/
 		if (X_MaxSpeed < 0) {
 
-			if ((X_Speed - X_Accel * Time.deltaTime) <= X_MaxSpeed) {
+				if ((X_Speed - X_Accel * Time.deltaTime) <= X_MaxSpeed) {
 					X_Speed = X_MaxSpeed;
-			} else {
+				} else {
 					X_Speed -= X_Accel * Time.deltaTime;
-			}
+				}
+
 		} else if (X_MaxSpeed > 0){
 
-			if ((X_Speed + X_Accel * Time.deltaTime) >= X_MaxSpeed) {
-				X_Speed = X_MaxSpeed;
-			} else {
-				X_Speed += X_Accel * Time.deltaTime;
-			}
+				if ((X_Speed + X_Accel * Time.deltaTime) >= X_MaxSpeed) {
+					X_Speed = X_MaxSpeed;
+				} else {
+					X_Speed += X_Accel * Time.deltaTime;
+
+				}
+
 		} else { // Decelerate
 			X_Speed = 0;
 		}
+		//Handle Collision
+		if (X_Speed > 0 && Collision.Collision_Right) {// Prevent Right movement
+			X_Speed = 0;
+		}
+		if(X_Speed < 0 && Collision.Collision_Left){// Prevent Left movement
+			X_Speed = 0;
+			grounded = true;
+		}
+
 		/*****************************************
 		 *****************************************/
 
@@ -72,19 +103,29 @@ public class MovementMotor : MonoBehaviour {
 		 *****************************************/
 		if (Y_MaxSpeed < 0) {
 
-			if ((Y_Speed - Y_Accel * Time.deltaTime) <= Y_MaxSpeed) {
-				Y_Speed = Y_MaxSpeed;
-			} else {
-				Y_Speed -= Y_Accel * Time.deltaTime;
-			}
+				if ((Y_Speed - Y_Accel * Time.deltaTime) <= Y_MaxSpeed) {
+					Y_Speed = Y_MaxSpeed;
+				} else {
+					Y_Speed -= Y_Accel * Time.deltaTime;
+				}
+
 		} else if (Y_MaxSpeed > 0) {
 
-			if ((Y_Speed + Y_Accel * Time.deltaTime) >= Y_MaxSpeed) {
-				Y_Speed = Y_MaxSpeed;
-			} else {
-				Y_Speed += Y_Accel * Time.deltaTime;
-			}
+				if ((Y_Speed + Y_Accel * Time.deltaTime) >= Y_MaxSpeed) {
+					Y_Speed = Y_MaxSpeed;
+				} else {
+					Y_Speed += Y_Accel * Time.deltaTime;
+				}
+
 		} else { // Decelerate
+			Y_Speed = 0;
+		}
+
+		//Handle Collision
+		if (Y_Speed > 0 && Collision.Collision_Up) {// Prevent Up movement
+			Y_Speed = 0;
+		}
+		if(Y_Speed < 0 && Collision.Collision_Down){// Prevent Down movement
 			Y_Speed = 0;
 		}
 
@@ -102,6 +143,7 @@ public class MovementMotor : MonoBehaviour {
 			} else {
 				Z_Speed -= Z_Accel * Time.deltaTime;
 			}
+
 		} else if (Z_MaxSpeed > 0) {
 
 			if ((Z_Speed + Z_Accel * Time.deltaTime) >= Z_MaxSpeed) {
@@ -109,11 +151,23 @@ public class MovementMotor : MonoBehaviour {
 			} else {
 				Z_Speed += Z_Accel * Time.deltaTime;
 			}
+
 		} else { // Decelerate
+			Z_Speed = 0;
+		}
+
+
+		//Handle Collision
+		if (Z_Speed > 0 && Collision.Collision_Below) {// Prevent movement Below
+			Z_Speed = 0;
+			grounded = true;
+		}
+		if(Z_Speed < 0 && Collision.Collision_Over){// Prevent movement Over
 			Z_Speed = 0;
 		}
 		/*****************************************
 		 *****************************************/
+		
 
 
 		// Write the result
@@ -122,16 +176,8 @@ public class MovementMotor : MonoBehaviour {
 		Vector3 CurrentPosition = transform.position;
 		CurrentPosition.x += X_Speed * Time.deltaTime;
 		CurrentPosition.y += Y_Speed * Time.deltaTime - YZ_Last_Displacement + YZ_New_Displacement;
+		CurrentPosition.z += Z_Speed * Time.deltaTime;
 
-
-		//Temporary: collision Set to zero plane only
-		if (CurrentPosition.z + Z_Speed * Time.deltaTime < 0) {
-			CurrentPosition.z += Z_Speed * Time.deltaTime;
-		} else {
-			CurrentPosition.z = 0;
-			grounded=true;
-		}
-		
 		transform.position = CurrentPosition;
 
 	}
