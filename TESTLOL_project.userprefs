@@ -4,9 +4,9 @@
     <Files>
       <File FileName="Assets\Scripts\ShadowScale.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CollisionTrigger.cs" Line="48" Column="37" />
+      <File FileName="Assets\Scripts\CollisionTrigger.cs" Line="55" Column="1" />
       <File FileName="Assets\Scripts\MenuInput.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MovementMotor.cs" Line="52" Column="1" />
+      <File FileName="Assets\Scripts\MovementMotor.cs" Line="189" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
