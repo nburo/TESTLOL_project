@@ -24,7 +24,8 @@ public class CollisionTrigger : MonoBehaviour
 
 		if (col.gameObject.tag == "floor") 
 			{
-				Collision_Below = (maxDiff.z >=0);
+				if(maxDiff.z >= 0)
+					Collision_Below = true;
 			}
 
 
@@ -47,27 +48,19 @@ public class CollisionTrigger : MonoBehaviour
 			Collision_Below = (maxDiff.z >= 0);*/
 
 			if(Mathf.Abs (maxDiff.x) <= Mathf.Abs (maxDiff.y) && 
-			   Mathf.Abs (maxDiff.x) <= Mathf.Abs (minDiff.y) &&
-			   Mathf.Abs (maxDiff.x) <= Mathf.Abs (maxDiff.z) &&
-			   Mathf.Abs (maxDiff.x) <= Mathf.Abs (minDiff.z))
+			   Mathf.Abs (maxDiff.x) <= Mathf.Abs (minDiff.y))
 				Collision_Right = true;
 			if(Mathf.Abs (minDiff.x) <= Mathf.Abs (minDiff.y) &&
-			   Mathf.Abs (minDiff.x) <= Mathf.Abs (maxDiff.y) &&
-			   Mathf.Abs (minDiff.x) <= Mathf.Abs (maxDiff.z) &&
-			   Mathf.Abs (minDiff.x) <= Mathf.Abs (minDiff.z))
+			   Mathf.Abs (minDiff.x) <= Mathf.Abs (maxDiff.y))
 				Collision_Left = true;
 			if(Mathf.Abs (maxDiff.y) <= Mathf.Abs (minDiff.x) && 
-			   Mathf.Abs (maxDiff.y) <= Mathf.Abs (maxDiff.x) &&
-			   Mathf.Abs (maxDiff.y) <= Mathf.Abs (maxDiff.z) &&
-			   Mathf.Abs (maxDiff.y) <= Mathf.Abs (minDiff.z))
+			   Mathf.Abs (maxDiff.y) <= Mathf.Abs (maxDiff.x))
 				Collision_Up = true;
 			if(Mathf.Abs (minDiff.y) <= Mathf.Abs (minDiff.x) && 
-			   Mathf.Abs (minDiff.y) <= Mathf.Abs (maxDiff.x) &&
-			   Mathf.Abs (minDiff.y) <= Mathf.Abs (maxDiff.z) &&
-			   Mathf.Abs (minDiff.y) <= Mathf.Abs (minDiff.z))
+			   Mathf.Abs (minDiff.y) <= Mathf.Abs (maxDiff.x))
 				Collision_Down = true;
 			if(maxDiff.z >= 0)
-				Collision_Below=true;
+				Collision_Below = true;
 
 			//below and over are not done yet
 
@@ -85,12 +78,30 @@ public class CollisionTrigger : MonoBehaviour
 
 	void OnTriggerExit(Collider col) //upon exiting the collision status
 	{
-		Collision_Up = false; //we set all Collision triggers to false
-		Collision_Down = false;
-		Collision_Left = false;
-		Collision_Right = false;
-		Collision_Over = false;
-		Collision_Below = false; //except below (need to work on this one)
+		Vector3 currentPos = this.transform.position; //currect moving object position
+		Vector3 closestColBoundPoint = col.ClosestPointOnBounds (currentPos); //closest point on bound of the collided object
+		Vector3 maxBound = this.collider.bounds.max; // positive-most corner of the moving object
+		Vector3 minBound = this.collider.bounds.min; // negative-most corner of the moving object
+		Vector3 maxDiff = maxBound - closestColBoundPoint; //difference between positive-most corner and closest point on bound
+		Vector3 minDiff = minBound - closestColBoundPoint; //difference between negative-most corner and closest point on bound
+
+	
+
+		if(Mathf.Abs (maxDiff.x) <= Mathf.Abs (maxDiff.y) && 
+		   Mathf.Abs (maxDiff.x) <= Mathf.Abs (minDiff.y))
+			Collision_Right = false;
+		if(Mathf.Abs (minDiff.x) <= Mathf.Abs (minDiff.y) &&
+		   Mathf.Abs (minDiff.x) <= Mathf.Abs (maxDiff.y))
+			Collision_Left = false;
+		if(Mathf.Abs (maxDiff.y) <= Mathf.Abs (minDiff.x) && 
+		   Mathf.Abs (maxDiff.y) <= Mathf.Abs (maxDiff.x))
+			Collision_Up = false;
+		if(Mathf.Abs (minDiff.y) <= Mathf.Abs (minDiff.x) && 
+		   Mathf.Abs (minDiff.y) <= Mathf.Abs (maxDiff.x))
+			Collision_Down = false;
+		if(maxDiff.z <= 0)
+			Collision_Below = false;
 		//Debug.Log ("collision exit");
 	}
+	
 }
