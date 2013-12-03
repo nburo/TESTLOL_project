@@ -47,11 +47,16 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\CharacterSheets\CharacterSheet.cs" />
+     <Compile Include="Assets\Scripts\CharacterSheets\EnemySheet.cs" />
+     <Compile Include="Assets\Scripts\CharacterSheets\PlayerSheet.cs" />
      <Compile Include="Assets\Scripts\CollisionTrigger.cs" />
      <Compile Include="Assets\Scripts\MenuInput.cs" />
      <Compile Include="Assets\Scripts\MovementMotor.cs" />
      <Compile Include="Assets\Scripts\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\ShadowScale.cs" />
+     <Compile Include="Assets\Scripts\StaticTools.cs" />
+     <Compile Include="Assets\Scripts\UIDraw.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

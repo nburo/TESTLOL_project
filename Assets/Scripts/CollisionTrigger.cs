@@ -15,61 +15,36 @@ public class CollisionTrigger : MonoBehaviour
 
 	void OnTriggerEnter(Collider col)
 	{
-		Vector3 currentPos = this.transform.position; //currect moving object position
-		Vector3 closestColBoundPoint = col.ClosestPointOnBounds (currentPos); //closest point on bound of the collided object
-		Vector3 maxBound = this.collider.bounds.max; // positive-most corner of the moving object
-		Vector3 minBound = this.collider.bounds.min; // negative-most corner of the moving object
-		Vector3 maxDiff = maxBound - closestColBoundPoint; //difference between positive-most corner and closest point on bound
-		Vector3 minDiff = minBound - closestColBoundPoint; //difference between negative-most corner and closest point on bound
 
 		if (col.gameObject.tag == "floor") 
 			{
-				if(maxDiff.z >= 0)
+			//	if(maxDiff.z >= 0)
 					Collision_Below = true;
 			}
 
-
-
 		if (col.gameObject.tag == "staticObjects" || col.gameObject.tag == "dynamicObjects") { //if colliding static (non-movable objects)
 
+			//this method return the char of the side being collided by this.gameObject
+			char side = StaticTools.CollisionDectection(this.gameObject,col.gameObject);
 
-			//for example, let's explain Collision_Right. The Right side of an object is a positive side (meaning it has a positive x coordinate
-			//relative to its center). In order for Collision_Right to be true :
-			//maxDiff.x most be >=0 (if the moving object gets inside the static object by jumping) so we know we are at least on the right side
-			//to know that we are indeed on the right (and nothing else), we must verify that |maxDiff.x| has indeed be the smallest value
-			/*Collision_Right = (	Mathf.Abs (maxDiff.x) <= Mathf.Abs (maxDiff.y) && 
-								Mathf.Abs (maxDiff.x) <= Mathf.Abs (minDiff.y));
-			Collision_Left = (	Mathf.Abs (minDiff.x) <= Mathf.Abs (minDiff.y) &&
-								Mathf.Abs (minDiff.x) <= Mathf.Abs (maxDiff.y));
-			Collision_Up = (	Mathf.Abs (maxDiff.y) <= Mathf.Abs (minDiff.x) && 
-								Mathf.Abs (maxDiff.y) <= Mathf.Abs (maxDiff.x));
-			Collision_Down = (	Mathf.Abs (minDiff.y) <= Mathf.Abs (minDiff.x) && 
-								Mathf.Abs (minDiff.y) <= Mathf.Abs (maxDiff.x));
-			Collision_Below = (maxDiff.z >= 0);*/
-
-			if(Mathf.Abs (maxDiff.x) <= Mathf.Abs (maxDiff.y) && 
-			   Mathf.Abs (maxDiff.x) <= Mathf.Abs (minDiff.y))
+			//using if's instead of Collision_Right = side == 'r' so collision bools don't reset on new trigger enters.
+			if(side == 'r')
 				Collision_Right = true;
-			if(Mathf.Abs (minDiff.x) <= Mathf.Abs (minDiff.y) &&
-			   Mathf.Abs (minDiff.x) <= Mathf.Abs (maxDiff.y))
+			if(side == 'l')
 				Collision_Left = true;
-			if(Mathf.Abs (maxDiff.y) <= Mathf.Abs (minDiff.x) && 
-			   Mathf.Abs (maxDiff.y) <= Mathf.Abs (maxDiff.x))
+			if(side == 'u')
 				Collision_Up = true;
-			if(Mathf.Abs (minDiff.y) <= Mathf.Abs (minDiff.x) && 
-			   Mathf.Abs (minDiff.y) <= Mathf.Abs (maxDiff.x))
+			if(side == 'd')
 				Collision_Down = true;
-			if(maxDiff.z >= 0)
-				Collision_Below = true;
 
 			//below and over are not done yet
 
-			Debug.Log ("left:" + Collision_Left + " right:" + Collision_Right + " up:" + Collision_Up + " down:" + Collision_Down + minDiff.z);
+			Debug.Log ("left:" + Collision_Left + " right:" + Collision_Right + " up:" + Collision_Up + " down:" + Collision_Down);
 		
 		} 
 		else if (col.gameObject.tag == "otherObjects") 
-		{ //if colliding dynamic (movable) objects
-			Debug.Log ("Enter dynamic trigger");
+		{ //if colliding other kinds of objects
+			Debug.Log ("Enter (other) trigger");
 		} 
 
 
@@ -78,29 +53,23 @@ public class CollisionTrigger : MonoBehaviour
 
 	void OnTriggerExit(Collider col) //upon exiting the collision status
 	{
-		Vector3 currentPos = this.transform.position; //currect moving object position
-		Vector3 closestColBoundPoint = col.ClosestPointOnBounds (currentPos); //closest point on bound of the collided object
-		Vector3 maxBound = this.collider.bounds.max; // positive-most corner of the moving object
-		Vector3 minBound = this.collider.bounds.min; // negative-most corner of the moving object
-		Vector3 maxDiff = maxBound - closestColBoundPoint; //difference between positive-most corner and closest point on bound
-		Vector3 minDiff = minBound - closestColBoundPoint; //difference between negative-most corner and closest point on bound
+		if (col.gameObject.tag == "staticObjects" || col.gameObject.tag == "dynamicObjects") 
+		{
+			char side = StaticTools.CollisionDectection (this.gameObject, col.gameObject);
 
-	
+			if (side == 'r')
+				Collision_Right = false;
+			if (side == 'l')
+				Collision_Left = false;
+			if (side == 'u')
+				Collision_Up = false;
+			if (side == 'd')
+				Collision_Down = false;
+		}
 
-		if(Mathf.Abs (maxDiff.x) <= Mathf.Abs (maxDiff.y) && 
-		   Mathf.Abs (maxDiff.x) <= Mathf.Abs (minDiff.y))
-			Collision_Right = false;
-		if(Mathf.Abs (minDiff.x) <= Mathf.Abs (minDiff.y) &&
-		   Mathf.Abs (minDiff.x) <= Mathf.Abs (maxDiff.y))
-			Collision_Left = false;
-		if(Mathf.Abs (maxDiff.y) <= Mathf.Abs (minDiff.x) && 
-		   Mathf.Abs (maxDiff.y) <= Mathf.Abs (maxDiff.x))
-			Collision_Up = false;
-		if(Mathf.Abs (minDiff.y) <= Mathf.Abs (minDiff.x) && 
-		   Mathf.Abs (minDiff.y) <= Mathf.Abs (maxDiff.x))
-			Collision_Down = false;
-		if(maxDiff.z <= 0)
+		if (col.gameObject.tag == "floor") 
 			Collision_Below = false;
+
 		//Debug.Log ("collision exit");
 	}
 	
