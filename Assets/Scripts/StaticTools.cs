@@ -3,15 +3,15 @@ using System.Collections;
 
 public class StaticTools : MonoBehaviour {
 
-	public static char CollisionDectection(GameObject moi, GameObject toi)
+	public static char CollisionDectection(Bounds moi, Bounds toi)
 	{
 		char sides;
 
-		Vector3 moiMax = moi.collider.bounds.max;
-		Vector3 moiMin = moi.collider.bounds.min;
+		Vector3 moiMax = moi.max;
+		Vector3 moiMin = moi.min;
 
-		Vector3 toiMax = toi.collider.bounds.max;
-		Vector3 toiMin = toi.collider.bounds.min;
+		Vector3 toiMax = toi.max;
+		Vector3 toiMin = toi.min;
 
 		//toiMax
 		Vector3 maxMinusMin = new Vector3(Mathf.Abs(moiMax.x - toiMin.x),Mathf.Abs(moiMax.y - toiMin.y),Mathf.Abs(moiMax.z - toiMin.z));
