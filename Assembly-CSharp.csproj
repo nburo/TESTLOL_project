@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>G:/Programs/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>G:/Programs/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +51,11 @@
      <Compile Include="Assets\Scripts\CharacterSheets\EnemySheet.cs" />
      <Compile Include="Assets\Scripts\CharacterSheets\PlayerSheet.cs" />
      <Compile Include="Assets\Scripts\CollisionTrigger.cs" />
-     <Compile Include="Assets\Scripts\MenuInput.cs" />
+     <Compile Include="Assets\Scripts\Menus\CharacterMenuGUI.cs" />
+     <Compile Include="Assets\Scripts\Menus\GameMenuGUI.cs" />
+     <Compile Include="Assets\Scripts\Menus\MainMenuGUI.cs" />
+     <Compile Include="Assets\Scripts\Menus\MenuHandle.cs" />
+     <Compile Include="Assets\Scripts\Menus\MenuInput.cs" />
      <Compile Include="Assets\Scripts\MovementMotor.cs" />
      <Compile Include="Assets\Scripts\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\ShadowScale.cs" />
